@@ -154,14 +154,13 @@ def estimate_area_and_volume(ellipse, seg_mask, diameter_mm, utensil_hint, assum
     percent_fill = 100.0 * food_px / interior_px
 
     est_volume_ml = None
-    if utensil_hint == 'plate' and diameter_mm is not None:
-        # Scale: pixels to mm, using major axis as diameter proxy (assumes near-overhead)
+    # If a diameter and a height are provided, compute a heuristic volume
+    # for any utensil type using area * height (mm^3 -> ml).
+    if diameter_mm is not None and assumed_height_mm is not None and assumed_height_mm > 0:
         major_axis_px = max(MA, ma)
         if major_axis_px > 0:
             mm_per_px = diameter_mm / major_axis_px
-            # Estimate area of food region in mm^2 (scale pixel area by (mm/px)^2)
             food_area_mm2 = food_px * (mm_per_px ** 2)
-            # Volume in mm^3 as area * height; convert to ml (1 ml = 1000 mm^3)
-            volume_mm3 = food_area_mm2 * max(assumed_height_mm, 0)
+            volume_mm3 = food_area_mm2 * assumed_height_mm
             est_volume_ml = volume_mm3 / 1000.0
     return percent_fill, est_volume_ml

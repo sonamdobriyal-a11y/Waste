@@ -12,7 +12,7 @@ def parse_args():
     p.add_argument('--diameter-mm', type=float, default=None,
                    help='Inner diameter of utensil opening, in mm (for scale)')
     p.add_argument('--assumed-food-height-mm', type=float, default=15.0,
-                   help='Assumed food height for plates (mm)')
+                   help='Assumed average food height (mm)')
     p.add_argument('--min-radius', type=int, default=60, help='Min circle radius (px)')
     p.add_argument('--max-radius', type=int, default=400, help='Max circle radius (px)')
     p.add_argument('--debug', action='store_true', help='Enable debug prints/visuals')
@@ -72,7 +72,7 @@ def main():
         if percent_fill is not None:
             info.append(f"Fill: {percent_fill:.1f}% (by area)")
         if est_volume_ml is not None:
-            info.append(f"Approx Volume: {est_volume_ml:.0f} ml (plate)")
+            info.append(f"Approx Volume: {est_volume_ml:.0f} ml")
         if args.diameter_mm:
             info.append(f"Scale: {args.diameter_mm} mm diameter")
         if show_seg:
@@ -97,4 +97,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
